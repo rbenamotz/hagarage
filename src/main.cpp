@@ -21,7 +21,7 @@ void init_wifi() {
     delay(5000);
     ESP.restart();
   }
-  write_to_log(WiFi.localIP().toString());
+  write_to_log("Connected to WiFi. Local IP is " + WiFi.localIP().toString());
   if (MDNS.begin(host_name)) {
     write_to_log("MDNS started. Host name: %s",host_name);
   }
