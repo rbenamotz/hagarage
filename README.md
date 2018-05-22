@@ -12,4 +12,5 @@ Compatible with Home Assistant through MQTT
 
 -------------
 
-![alt web UI](font end.png)
+
+![alt text](frontend.png "Web interface")
