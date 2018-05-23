@@ -5,6 +5,8 @@
 #include "main.h"
 #include "user_config.h"
 
+#define MAX_ATTEMPTS_FOR_EACH_RECONNECT 3
+#define DELAY_AFTER_FAILED_CONNECTION_MS 500
 
 
 WiFiClient espClient;
@@ -32,21 +34,20 @@ void callback(char* topic, byte* payload, unsigned int length) {
 void reconnect() {
   int attempts = 0;
   while (!client.connected()) {
-    attempts++;
-    if (attempts > 3) {
+    if (attempts > MAX_ATTEMPTS_FOR_EACH_RECONNECT) {
       write_to_log("Could not connect to MQTT for %d times. Yielding",attempts);
       return;
     }
+    attempts++;
     if (!client.connect(host_name,MQTT_USER,MQTT_PASS)) {
       write_to_log("Failed to connect to MQTT server \"%s\", rc=%d.",MQTT_HOST,client.state());
-      delay(500);
+      delay(DELAY_AFTER_FAILED_CONNECTION_MS);
       continue;
     }
     write_to_log("Connected to MQTT server \"%s\" as %s",MQTT_HOST,MQTT_USER);
     for (int i=0; i<TOTAL_DOORS; i++) {
       client.subscribe(mqtt_topic_ins[i]);
     }
-
   }
 }
 

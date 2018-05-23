@@ -24,7 +24,7 @@
             }
           }
         };
-        xhr.open("GET", "/e");
+        xhr.open("GET", "/env");
         xhr.send();
       }
 
@@ -44,7 +44,7 @@
             }
           }
         };
-        xhr.open("GET", "/d");
+        xhr.open("GET", "/data");
         xhr.send();
       }
       function loadLog() {
@@ -54,7 +54,7 @@
             preAllDoors.innerText = xhr.response;
           }
         };
-        xhr.open("GET", "/l");
+        xhr.open("GET", "/log");
         xhr.send();
       }
 
@@ -147,6 +147,19 @@
       display: block;
       cursor: pointer;
     }
+    .footer {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      background-color: #EFEFEF;
+      color: black;
+      font-size: small;
+      text-align: center;
+    }
+    a {
+      text-decoration: none;
+    }
     </style>
     <title>Garage Controller</title>
   </head>
@@ -173,5 +186,6 @@
       </div>
     </div>
     <pre id="preAllDoors">Loading...</pre>
+    <div class="footer">created by Roey Benamotz. <a href="mailto:roey@benamotz.com">roey@benamotz.com</a><div>
   </body>
 </html>

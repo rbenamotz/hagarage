@@ -7,10 +7,12 @@
 #include "doors.h"
 #include "user_config.h"
 
+#define WIFI_CONNECTION_DELAY_MS 500
+#define LOOP_DELAY 100
+
 const char* host_name = "garagecontrol";
 
 
-bool isGarageDoorsOpen[] = {false,false};
 
 void init_wifi() {
   WiFi.hostname(host_name);
@@ -18,7 +20,7 @@ void init_wifi() {
   WiFi.begin(WIFI_SSID, WIFI_PASS);
   while (WiFi.waitForConnectResult() != WL_CONNECTED) {
     write_to_log("Connection Failed! Rebooting...");
-    delay(5000);
+    delay(WIFI_CONNECTION_DELAY_MS);
     ESP.restart();
   }
   write_to_log("Connected to WiFi. Local IP is " + WiFi.localIP().toString());
@@ -44,5 +46,5 @@ void loop()
   loop_doors();
   loop_mqtt();
   loop_web_server();
-  delay(100);
+  delay(LOOP_DELAY);
 }

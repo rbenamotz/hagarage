@@ -1,8 +1,8 @@
 #include <Arduino.h>
+#include "user_config.h"
 
-extern bool is_ota_enabled;
 extern const char* host_name;
-extern bool isGarageDoorsOpen[2];
+extern bool is_door_open[TOTAL_DOORS];
 
 void init_common();
 void write_to_log(String line, ...);

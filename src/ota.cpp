@@ -2,6 +2,12 @@
 #include <ArduinoOTA.h>
 #include "user_config.h"
 
+#define OTA_INITIAL_STATE true
+
+
+bool is_ota_enabled;
+
+
 void init_ota() {
   is_ota_enabled = OTA_INITIAL_STATE;
   ArduinoOTA.onStart([]() {

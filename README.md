@@ -14,3 +14,6 @@ Compatible with Home Assistant through MQTT
 
 
 ![alt text](frontend.png "Web interface")
+
+
+![alt text](garage_control_schem.png "Schematic layout")

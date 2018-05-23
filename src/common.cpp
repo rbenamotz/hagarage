@@ -5,7 +5,6 @@
 
 String log_buffer[LOG_SIZE];
 int log_buffer_index = -1;
-bool is_ota_enabled;
 
 void init_common() {
   if (LOG_TO_SERIAL) {
@@ -21,11 +20,9 @@ void write_to_log(String line, ...) {
   int realIndex = log_buffer_index % LOG_SIZE;
   va_list args;
   va_start(args, l);
-  // sprintf(temp,l ,args);
   vsprintf(temp,l ,args);
   sprintf(temp2,"%lu : %s",millis(), temp);
   log_buffer[realIndex] = temp2;
-  //vprintf(line, args);
   va_end(args);
   if (LOG_TO_SERIAL) {
     Serial.println(log_buffer[realIndex]);
