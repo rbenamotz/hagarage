@@ -25,7 +25,7 @@ void write_to_log(String line, ...) {
   log_buffer[realIndex] = temp2;
   va_end(args);
   if (LOG_TO_SERIAL) {
-    Serial.println(log_buffer[realIndex]);
+    Serial.println(temp2);
   }
 }
 

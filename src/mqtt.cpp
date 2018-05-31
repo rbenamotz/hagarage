@@ -5,7 +5,7 @@
 #include "main.h"
 #include "user_config.h"
 
-#define MAX_ATTEMPTS_FOR_EACH_RECONNECT 3
+#define MAX_ATTEMPTS_FOR_EACH_RECONNECT 1
 #define DELAY_AFTER_FAILED_CONNECTION_MS 500
 
 
@@ -31,7 +31,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
 }
 
 
-void reconnect() {
+void reconnect_to_mqtt() {
+  if (client.connected()) {
+    return;
+  }
   int attempts = 0;
   while (!client.connected()) {
     if (attempts > MAX_ATTEMPTS_FOR_EACH_RECONNECT) {
@@ -65,8 +68,6 @@ void publish_state(int door, bool isOpen) {
 }
 
 void loop_mqtt() {
-  if (!client.connected()) {
-    reconnect();
-  }
+  reconnect_to_mqtt();
   client.loop();
 }

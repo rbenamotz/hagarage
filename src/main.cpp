@@ -12,18 +12,24 @@
 
 const char* host_name = "garagecontrol";
 
-
-
-void init_wifi() {
-  WiFi.hostname(host_name);
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(WIFI_SSID, WIFI_PASS);
+void reconect_to_wifi() {
+  if (WiFi.status() == WL_CONNECTED) {
+    return;
+  }
   while (WiFi.waitForConnectResult() != WL_CONNECTED) {
     write_to_log("Connection Failed! Rebooting...");
     delay(WIFI_CONNECTION_DELAY_MS);
     ESP.restart();
   }
   write_to_log("Connected to WiFi. Local IP is " + WiFi.localIP().toString());
+}
+
+
+void init_wifi() {
+  WiFi.hostname(host_name);
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASS);
+  reconect_to_wifi();
   if (MDNS.begin(host_name)) {
     write_to_log("MDNS started. Host name: %s",host_name);
   }
@@ -42,6 +48,7 @@ void setup()
 
 void loop()
 {
+  reconect_to_wifi();
   loop_ota();
   loop_doors();
   loop_mqtt();
