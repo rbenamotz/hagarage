@@ -1,7 +1,7 @@
 #include "webserver.h"
 #include <ESP8266WebServer.h>
 #include "common.h"
-#include "main.h"
+#include "doors.h"
 #include "user_config.h"
 #include "ota.h"
 
@@ -61,6 +61,11 @@ void handleOta() {
   server.send(200,"application/json",temp);
 }
 
+void handleRestart() {
+  write_to_log("Restarting due to API request");
+  ESP.restart();
+}
+
 void handleEnviroment() {
   String output = "{";
   output+= "\"garageName\" : \"";
@@ -91,6 +96,7 @@ void init_web_server() {
   server.on("/log", handleLog);
   server.on("/data", handleData);
   server.on("/ota", handleOta);
+  server.on("/rst", handleRestart);
   server.begin();
   write_to_log("Web server listening");
 }

@@ -2,7 +2,7 @@
 #include "mqtt.h"
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
-#include "main.h"
+#include "doors.h"
 #include "user_config.h"
 
 #define MAX_ATTEMPTS_FOR_EACH_RECONNECT 1
@@ -42,7 +42,7 @@ void reconnect_to_mqtt() {
       return;
     }
     attempts++;
-    if (!client.connect(host_name,MQTT_USER,MQTT_PASS)) {
+    if (!client.connect(HOST_NAME,MQTT_USER,MQTT_PASS)) {
       write_to_log("Failed to connect to MQTT server \"%s\", rc=%d.",MQTT_HOST,client.state());
       delay(DELAY_AFTER_FAILED_CONNECTION_MS);
       continue;

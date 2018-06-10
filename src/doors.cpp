@@ -5,10 +5,12 @@
 
 #define FORCE_UPDATE_MS 15000
 #define GARAGE_BUTTON_DELAY_MS 100
+#define LOOP_INTERVAL 100
 
 static const int reed_switch_pins[] = REED_SWITCH_PINS;
 static const int push_button_pins[] = BUTTON_PINS;
 
+unsigned long last_time_state_checked = 0;
 unsigned long last_time_state_reported[TOTAL_DOORS];
 bool is_door_open[TOTAL_DOORS];
 
@@ -61,7 +63,12 @@ void loop_door(int door) {
 }
 
 void loop_doors() {
+  unsigned long l = millis() - last_time_state_checked;
+  if (l<LOOP_INTERVAL) {
+    return;
+  }
   for (int i=0; i<TOTAL_DOORS; i++) {
     loop_door(i);
   }
+  last_time_state_checked = millis();
 }
