@@ -1,8 +1,8 @@
 <html>
   <head>
     <script>
-      var intervalID1 = setInterval(loadData, 500);
-      var intervalID2 = setInterval(loadLog, 1000);
+      var intervalID1;
+      var intervalID2;
       function handleDoorStatus(doorNum,status) {
         var div = document.getElementById("divDoor" + doorNum + "Part2");
         var newHeight = "7em";
@@ -22,6 +22,10 @@
               var elem = document.getElementById("doorHeader" + (i+1));
               elem.innerText = doors[i];
             }
+            loadData();
+            loadLog();
+            setInterval(loadData, 500);
+            setInterval(loadLog, 1000);
           }
         };
         xhr.open("GET", "/env");

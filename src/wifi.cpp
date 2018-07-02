@@ -23,6 +23,13 @@ void reconect_to_wifi() {
 void init_wifi() {
   WiFi.hostname(HOST_NAME);
   WiFi.mode(WIFI_STA);
+  #ifdef IP_ADDR
+  IPAddress ip(IP_ADDR);
+  IPAddress gateway(IP_GW);
+  IPAddress subnet(IP_SUBNET);
+  WiFi.config(ip, gateway, subnet);
+  #endif
+
   WiFi.begin(WIFI_SSID, WIFI_PASS);
   reconect_to_wifi();
   if (MDNS.begin(HOST_NAME)) {
