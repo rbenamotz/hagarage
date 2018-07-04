@@ -8,7 +8,7 @@
 bool is_ota_enabled;
 
 
-void init_ota() {
+void setupOta() {
   is_ota_enabled = OTA_INITIAL_STATE;
   ArduinoOTA.onStart([]() {
     String type;
@@ -42,7 +42,7 @@ void init_ota() {
   ArduinoOTA.begin();
 }
 
-void loop_ota() {
+void loopOta() {
   if (!is_ota_enabled) {
     return;
   }

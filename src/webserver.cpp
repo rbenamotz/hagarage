@@ -46,7 +46,7 @@ void handleToggle() {
   String s = server.uri().substring(server.uri().length() - 1);
   int door = s.toInt();
   write_to_log("Toggle for door %d called from REST API",door);
-  toggle_door_state(door - 1);
+  toggleDoor(door - 1);
   server.send(200,"application/json","");
 }
 
@@ -85,7 +85,7 @@ void handleEnviroment() {
 }
 
 
-void init_web_server() {
+void setupWebServer() {
   char temp[10];
   server.on("/", handleRoot);
   for (int i=0; i<TOTAL_DOORS; i++) {
@@ -101,6 +101,6 @@ void init_web_server() {
   write_to_log("Web server listening");
 }
 
-void loop_web_server() {
+void loopWebServer() {
   server.handleClient();
 }

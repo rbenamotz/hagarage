@@ -7,7 +7,7 @@
 
 
 
-void reconect_to_wifi() {
+void loopWifi() {
   if (WiFi.status() == WL_CONNECTED) {
     return;
   }
@@ -20,7 +20,7 @@ void reconect_to_wifi() {
 }
 
 
-void init_wifi() {
+void setupWifi() {
   WiFi.hostname(HOST_NAME);
   WiFi.mode(WIFI_STA);
   #ifdef IP_ADDR
@@ -31,7 +31,7 @@ void init_wifi() {
   #endif
 
   WiFi.begin(WIFI_SSID, WIFI_PASS);
-  reconect_to_wifi();
+  loopWifi();
   if (MDNS.begin(HOST_NAME)) {
     write_to_log("MDNS started. Host name: %s",HOST_NAME);
   }

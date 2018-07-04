@@ -15,7 +15,7 @@ unsigned long last_time_state_reported[TOTAL_DOORS];
 bool is_door_open[TOTAL_DOORS];
 
 
-void toggle_door_state(int door) {
+void toggleDoor(int door) {
   int p = push_button_pins[door];
   write_to_log("Toggling door %d on pin %d", door + 1, p);
   if (p==-1) {
@@ -27,7 +27,7 @@ void toggle_door_state(int door) {
 }
 
 
-void init_door(int door) {
+void setupDoor(int door) {
   last_time_state_reported[door] = 0;
   is_door_open[door] = false;
   write_to_log("Setting up door %d (switch %d, relay %d)" , door+1 ,reed_switch_pins[door], push_button_pins[door]);
@@ -38,14 +38,14 @@ void init_door(int door) {
   }
 }
 
-void init_doors() {
+void setupDoors() {
   for (int i=0; i<TOTAL_DOORS; i++) {
-    init_door(i);
+    setupDoor(i);
   }
 }
 
 
-void loop_door(int door) {
+void loopDoor(int door) {
   unsigned long timeSinceLastUpdate = millis() - last_time_state_reported[door];
   bool forceReport = timeSinceLastUpdate > FORCE_UPDATE_MS;
 
@@ -62,13 +62,13 @@ void loop_door(int door) {
   last_time_state_reported[door] = millis();
 }
 
-void loop_doors() {
+void loopDoors() {
   unsigned long l = millis() - last_time_state_checked;
   if (l<LOOP_INTERVAL) {
     return;
   }
   for (int i=0; i<TOTAL_DOORS; i++) {
-    loop_door(i);
+    loopDoor(i);
   }
   last_time_state_checked = millis();
 }

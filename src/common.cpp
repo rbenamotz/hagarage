@@ -6,7 +6,7 @@
 String log_buffer[LOG_SIZE];
 int log_buffer_index = -1;
 
-void init_common() {
+void setupCommon() {
   if (LOG_TO_SERIAL) {
     Serial.begin(115200);
   }

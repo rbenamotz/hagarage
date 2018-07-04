@@ -27,7 +27,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
     write_to_log("(no door defined)");
     return;
   }
-  toggle_door_state(door);
+  toggleDoor(door);
 }
 
 
@@ -54,7 +54,7 @@ void reconnect_to_mqtt() {
   }
 }
 
-void init_mqtt() {
+void setupMqtt() {
   client.setServer(MQTT_HOST, MQTT_PORT);
   client.setCallback(callback);
 }
@@ -67,7 +67,7 @@ void publish_state(int door, bool isOpen) {
   client.publish(mqtt_topic_outs[door], state.c_str());
 }
 
-void loop_mqtt() {
+void loopMqtt() {
   reconnect_to_mqtt();
   client.loop();
 }

@@ -9,20 +9,20 @@
 
 void setup()
 {
-  init_common();
-  init_doors();
-  init_wifi();
-  init_ota();
-  init_mqtt();
-  init_web_server();
+  setupCommon();
+  setupDoors();
+  setupWifi();
+  setupOta();
+  setupMqtt();
+  setupWebServer();
 }
 
 
 void loop()
 {
-  reconect_to_wifi();
-  loop_ota();
-  loop_doors();
-  loop_mqtt();
-  loop_web_server();
+  loopWifi();
+  loopOta();
+  loopDoors();
+  loopMqtt();
+  loopWebServer();
 }
