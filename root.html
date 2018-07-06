@@ -1,8 +1,6 @@
 <html>
   <head>
     <script>
-      var intervalID1;
-      var intervalID2;
       function handleDoorStatus(doorNum,status) {
         var div = document.getElementById("divDoor" + doorNum + "Part2");
         var newHeight = "7em";
@@ -25,7 +23,7 @@
             loadData();
             loadLog();
             setInterval(loadData, 500);
-            setInterval(loadLog, 1000);
+            window.setTimeout(loadLog, 1000);
           }
         };
         xhr.open("GET", "/env");
@@ -56,6 +54,7 @@
         xhr.onreadystatechange = function() {
           if (xhr.readyState === 4) {
             preAllDoors.innerText = xhr.response;
+            window.setTimeout(loadLog, 1000);
           }
         };
         xhr.open("GET", "/log");
