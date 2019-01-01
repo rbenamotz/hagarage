@@ -36,10 +36,14 @@ String read_log_buffer() {
     return "";
   }
   unsigned long now = millis();
+  char buf[300];
   for (int i=LOG_SIZE; i>0; i--) {
     int p = i + log_buffer_index;
     int l = p % LOG_SIZE;
-    output+= (now - log_buffer_ms[l]) / 1000;
+    // output+= (now - log_buffer_ms[l]) / 1000;
+    unsigned long elapsed = (now - log_buffer_ms[l]) / 1000;
+    sprintf(buf, "%01.0f:%02.0f:%02.0f", floor(elapsed/3600.0), floor(fmod(elapsed,3600.0)/60.0), fmod(elapsed,60.0));    
+    output+= buf;
     output+= " - ";
     output+=log_buffer[l];
     output+="\n";
