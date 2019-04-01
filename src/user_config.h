@@ -12,6 +12,7 @@
 //WiFi
 #define WIFI_SSID "ssid name"
 #define  WIFI_PASS "wifi password"
+#define HOST_NAME "garagecontrol"
 
 
 //MQTT
