@@ -4,7 +4,7 @@
 #include "user_config.h"
 
 #define FORCE_UPDATE_MS 15000
-#define GARAGE_BUTTON_DELAY_MS 100
+#define GARAGE_BUTTON_DELAY_MS 200
 #define LOOP_INTERVAL 100
 
 static const int reed_switch_pins[] = REED_SWITCH_PINS;

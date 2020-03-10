@@ -1,40 +1,48 @@
-#include "common.h"
-#include "wifi.h"
-#include "user_config.h"
+#include <Arduino.h>
+#include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
+#include "user_config.h"
+#include "common.h"
+#include <WiFiManager.h>
 
-#define WIFI_CONNECTION_DELAY_MS 500
-
-void loopWifi()
+static void onStationModeConnected(const WiFiEventStationModeConnected &event)
 {
-  if (WiFi.status() == WL_CONNECTED)
-  {
-    return;
-  }
-  while (WiFi.waitForConnectResult() != WL_CONNECTED)
-  {
-    write_to_log("Connection Failed! Rebooting...");
-    delay(WIFI_CONNECTION_DELAY_MS);
-    ESP.restart();
-  }
-  write_to_log("Connected to WiFi. Local IP is " + WiFi.localIP().toString());
+  write_to_log("WiFi Connected. SSID=%s", event.ssid.c_str());
+}
+
+static void onStationModeDisconnected(const WiFiEventStationModeDisconnected &event)
+{
+  write_to_log("WiFi Disconnected. Reason code=%d", event.reason);
+}
+
+static void onStationModeGotIP(const WiFiEventStationModeGotIP &event)
+{
+  write_to_log("WiFi Got IP. localIP=%s, hostname=%s", event.ip.toString().c_str(), WiFi.hostname().c_str());
+  MDNS.begin(HOST_NAME);
+}
+
+static void onStationModeDHCPTimeout()
+{
+  write_to_log("WiFi DHCP timed out.");
+}
+
+void setupWifiWithManager()
+{
 }
 
 void setupWifi()
 {
-  WiFi.hostname(HOST_NAME);
-  WiFi.mode(WIFI_STA);
-#ifdef IP_ADDR
-  IPAddress ip(IP_ADDR);
-  IPAddress gateway(IP_GW);
-  IPAddress subnet(IP_SUBNET);
-  WiFi.config(ip, gateway, subnet);
-#endif
-
-  WiFi.begin(WIFI_SSID, WIFI_PASS);
-  loopWifi();
-  if (MDNS.begin(HOST_NAME))
-  {
-    write_to_log("MDNS started. Host name: %s", HOST_NAME);
-  }
+  write_to_log("Entering WiFi setup");
+  static WiFiEventHandler e1 = WiFi.onStationModeConnected(onStationModeConnected);
+  static WiFiEventHandler e2 = WiFi.onStationModeDisconnected(onStationModeDisconnected);
+  static WiFiEventHandler e3 = WiFi.onStationModeGotIP(onStationModeGotIP);
+  static WiFiEventHandler e4 = WiFi.onStationModeDHCPTimeout(onStationModeDHCPTimeout);
+  write_to_log("Starting WiFi Manager");
+  WiFiManager wifiManager;
+  // wifiManager.resetSettings();
+  wifiManager.setDebugOutput(false);
+  wifiManager.autoConnect(HOST_NAME);
+}
+void loopWifi()
+{
 }
