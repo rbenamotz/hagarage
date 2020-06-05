@@ -4,7 +4,7 @@
 #include "user_config.h"
 
 #define FORCE_UPDATE_MS 15000
-#define GARAGE_BUTTON_DELAY_MS 200
+#define GARAGE_BUTTON_DELAY_MS 1000
 #define LOOP_INTERVAL 100
 
 static const int reed_switch_pins[] = REED_SWITCH_PINS;
@@ -16,7 +16,7 @@ bool is_door_open[TOTAL_DOORS];
 void toggleDoor(int door)
 {
   int p = push_button_pins[door];
-  write_to_log("Toggling door %d on pin %d", door + 1, p);
+  write_to_log("Toggling door %d on pin %d with duration of %dms", door + 1, p, GARAGE_BUTTON_DELAY_MS);
   if (p == -1)
   {
     return;

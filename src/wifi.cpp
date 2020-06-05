@@ -26,12 +26,11 @@ static void onStationModeDHCPTimeout()
   write_to_log("WiFi DHCP timed out.");
 }
 
-void setupWifiWithManager()
-{
+void setupWifiWithManager() {
+  
 }
 
-void setupWifi()
-{
+void setupWifi() {
   write_to_log("Entering WiFi setup");
   static WiFiEventHandler e1 = WiFi.onStationModeConnected(onStationModeConnected);
   static WiFiEventHandler e2 = WiFi.onStationModeDisconnected(onStationModeDisconnected);
@@ -40,8 +39,8 @@ void setupWifi()
   write_to_log("Starting WiFi Manager");
   WiFiManager wifiManager;
   // wifiManager.resetSettings();
-  wifiManager.setDebugOutput(false);
-  wifiManager.autoConnect(HOST_NAME);
+  wifiManager.setDebugOutput(true);
+  wifiManager.autoConnect(HOST_NAME);  
 }
 void loopWifi()
 {
